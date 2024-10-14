@@ -41,8 +41,6 @@ public class Main {
         int a=(int) (Math.random() * 100);
         int b = (int) (Math.random() * 100)-100;
 
-        int initValue=(int) (Math.random() * 100);
-        int delta=(int) (Math.random() * 100);
         Random random = new Random();
         boolean increment= random.nextBoolean();
 
@@ -53,7 +51,7 @@ public class Main {
         else if (result == 2) new Main().checkSign(a, b, a);
         else if (result == 3) new Main().selectColor();
         else if (result == 4) new Main().compareNumbers();
-        else if (result == 5) new Main().addOrSubtractAndPrint(initValue, delta, increment);
+        else if (result == 5) new Main().addOrSubtractAndPrint(a, a, increment);
         else System.out.println("Вы неверно ввели номер");
     }
 }
