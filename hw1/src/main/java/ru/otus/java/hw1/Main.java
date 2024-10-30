@@ -5,34 +5,34 @@ import java.util.Scanner;
 
 public class Main {
 
-    public void greetings(String first, String second, String third, String fourth) {
+    public static void greetings(String first, String second, String third, String fourth) {
         System.out.println(first);
         System.out.println(second);
         System.out.println(third);
         System.out.println(fourth);
     }
 
-    public void checkSign(int a, int b, int c) {
+    public static void checkSign(int a, int b, int c) {
         int d = a + b + c;
         if (d >= 0) System.out.println("Сумма положительная");
         else System.out.println("Сумма отрицательная");
     }
 
-    public void selectColor() {
+    public static void selectColor() {
         int data = (int) (Math.random() * 30);
         if (data <= 10) System.out.println("Красный");
-        else if (data > 10 & data <= 20) System.out.println("Желтый");
+        else if (data <= 20) System.out.println("Желтый");
         else System.out.println("Зеленый");
     }
 
-    public void compareNumbers() {
+    public static void compareNumbers() {
         int a = (int) (Math.random() * 100);
         int b = (int) (Math.random() * 100);
         if (a >= b) System.out.println("a >= b");
         else System.out.println("a < b");
     }
 
-    public void addOrSubtractAndPrint(int initValue, int delta, boolean increment) {
+    public static void addOrSubtractAndPrint(int initValue, int delta, boolean increment) {
         if (increment) System.out.println(initValue + delta);
         else System.out.println(initValue - delta);
     }
@@ -47,11 +47,11 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Введите число от 1 до 5 и потом нажмите Enter");
         int result = scanner.nextInt();
-        if (result == 1) new Main().greetings("Hello", "World", "from", "Java");
-        else if (result == 2) new Main().checkSign(a, b, a);
-        else if (result == 3) new Main().selectColor();
-        else if (result == 4) new Main().compareNumbers();
-        else if (result == 5) new Main().addOrSubtractAndPrint(a, a, increment);
+        if (result == 1) greetings("Hello", "World", "from", "Java");
+        else if (result == 2) checkSign(a, b, a);
+        else if (result == 3) selectColor();
+        else if (result == 4) compareNumbers();
+        else if (result == 5) addOrSubtractAndPrint(a, a, increment);
         else System.out.println("Вы неверно ввели номер");
     }
 }
