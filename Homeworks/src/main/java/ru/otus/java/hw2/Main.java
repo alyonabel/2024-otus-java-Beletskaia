@@ -1,5 +1,6 @@
 package ru.otus.java.hw2;
 
+
 import java.util.Arrays;
 
 public class Main {
@@ -14,23 +15,21 @@ public class Main {
         int result = 0;
         for (int i : arr)
             if (i > 5)
-                result = result + i;
+                result += i;
 
         System.out.println("Сумма всех элементов, значение которых больше 5: " + result);
     }
 
     public static int[] setArray(int a, int[] arr) {
-        int[] newArr= new int [arr.length];
-        Arrays.fill(newArr, a);
-        return newArr;
+        Arrays.fill(arr, a);
+        return arr;
     }
 
     public static int[] increaseArray(int a, int[] arr) {
-        int[] newArr =  new int [arr.length];
-        for (int i = 0; i < newArr.length; i++) {
-            newArr[i]+=a;
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] += a;
         }
-        return newArr;
+        return arr;
     }
 
     public static void printHalfArray(int[] arr) {
@@ -62,17 +61,17 @@ public class Main {
         int[] arr2 = {1, 2, 5, 4, 6, 1, 1, 1, 2};
         for (int i : arr2)
             System.out.print(i + "");
-        int [] array  = setArray(6, arr2);
+        int[] array = setArray(6, arr2);
         System.out.println("\nНовый массив с заменёнными значениями");
         for (int i : array)
-        System.out.print( i + "");
+            System.out.print(i + "");
         System.out.println("\n");
 
         System.out.println("Исходный массив");
         int[] arr3 = {4, 4, 0, 0, 0, 0, 1};
         for (int i : arr3)
-        System.out.print(i + "");
-        int [] array5  = increaseArray(5, arr3);
+            System.out.print(i + "");
+        int[] array5 = increaseArray(5, arr3);
         System.out.println("\nНовый массив с увеличенным значениями");
         for (int i : array5)
             System.out.print(i + "");
