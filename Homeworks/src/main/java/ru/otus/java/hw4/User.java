@@ -2,11 +2,11 @@ package ru.otus.java.hw4;
 
 public class User {
 
-    public String name;
-    public String surname;
-    public String middleName;
-    public int year;
-    public String email;
+    private String name;
+    private String surname;
+    private String middleName;
+    private int year;
+    private String email;
 
     public User(String surname, String name, String middleName, int year, String email) {
         this.name = name;

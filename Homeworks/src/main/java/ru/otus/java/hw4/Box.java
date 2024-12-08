@@ -4,33 +4,34 @@ import java.awt.*;
 
 public class Box {
 
-    public Color color;
-    public final int height;
-    public final int width;
-    boolean idOpened;
-    boolean isEmpty;
+    private Color color;
+    private int height;
+    private int width;
+    private static boolean idOpened;
+    private boolean isEmpty;
 
 
     public Box(Color color, int height, int width, boolean idOpened, boolean isEmpty) {
         this.color = color;
         this.height = height;
         this.width = width;
-        this.idOpened = idOpened;
+        Box.idOpened = idOpened;
         this.isEmpty = isEmpty;
     }
 
-    public static void openCloseBox(Box box, boolean a) {
-        if (box.idOpened == a) {
-            if (box.idOpened) System.out.println("Коробка уже открыта!");
-            else System.out.println("Коробка уже закрыта!");
-        } else {
-            if (a) {
-                box.idOpened = a;
-                System.out.println("Коробка открыта успешно");
-            } else {
-                box.idOpened = a;
-                System.out.println("Коробка закрыта успешно");
-            }
+    public static void openBox() {
+        if (idOpened) System.out.println("Коробка уже открыта!");
+        else {
+            idOpened = true;
+            System.out.println("Коробка открыта успешно");
+        }
+    }
+
+    public static void closeBox() {
+        if (!idOpened) System.out.println("Коробка уже закрыта!");
+        else {
+            idOpened = false;
+            System.out.println("Коробка закрыта успешно");
         }
     }
 

@@ -23,9 +23,9 @@ public class Main {
         Box.fill(box);
         Box.fill(box);
         Box.clean(box);
-        Box.openCloseBox(box,true);
-        Box.openCloseBox(box,true);
-        Box.openCloseBox(box,false);
+        Box.openBox();
+        Box.openBox();
+        Box.closeBox();
 
     }
 }
