@@ -13,10 +13,9 @@ public class Main {
     }
 
     public static void printSqr(int size) {
-        String symbol = "*";
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-                System.out.print(symbol + " ");
+                System.out.print("* ");
             }
             System.out.println();
         }
@@ -44,7 +43,6 @@ public class Main {
 
     public static int sumElementsSecondLine(int[][] array) {
         int result = 0;
-
         if (array.length < 2) result = -1;
         else {
             for (int j = 0; j < array[0].length; j++) {
