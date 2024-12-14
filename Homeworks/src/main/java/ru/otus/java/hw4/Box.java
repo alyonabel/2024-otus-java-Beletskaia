@@ -8,7 +8,7 @@ public class Box {
     private int height;
     private int width;
     private static boolean idOpened;
-    private boolean isEmpty;
+    private static boolean isEmpty;
 
 
     public Box(Color color, int height, int width, boolean idOpened, boolean isEmpty) {
@@ -19,7 +19,7 @@ public class Box {
         this.isEmpty = isEmpty;
     }
 
-    public static void openBox() {
+    public static void open() {
         if (idOpened) System.out.println("Коробка уже открыта!");
         else {
             idOpened = true;
@@ -27,7 +27,7 @@ public class Box {
         }
     }
 
-    public static void closeBox() {
+    public static void close() {
         if (!idOpened) System.out.println("Коробка уже закрыта!");
         else {
             idOpened = false;
@@ -41,16 +41,16 @@ public class Box {
         System.out.println("Коробка перекрашена в цвет: " + color.toString());
     }
 
-    public static void fill(Box box) {
-        if (box.isEmpty) {
-            box.isEmpty = false;
+    public static void fill() {
+        if (isEmpty) {
+            isEmpty = false;
             System.out.println("Предмет поместили в коробку");
         } else System.out.println("Коробка уже наполнена, в неё нельзя положить ещё один предмет!");
     }
 
-    public static void clean(Box box) {
-        if (!box.isEmpty) {
-            box.isEmpty = true;
+    public static void clean() {
+        if (!isEmpty) {
+            isEmpty = true;
             System.out.println("Предмет вынули из коробки");
         } else System.out.println("Коробка пуста, из неё нельзя достать предмет!");
     }

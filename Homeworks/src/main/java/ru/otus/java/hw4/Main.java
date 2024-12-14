@@ -20,12 +20,12 @@ public class Main {
 
         Box box = new Box(Color.gray,10,20,false,true);
         Box.repaint(box,Color.cyan);
-        Box.fill(box);
-        Box.fill(box);
-        Box.clean(box);
-        Box.openBox();
-        Box.openBox();
-        Box.closeBox();
+        Box.fill();
+        Box.fill();
+        Box.clean();
+        Box.open();
+        Box.open();
+        Box.close();
 
     }
 }
