@@ -19,13 +19,13 @@ public class Main {
         User.sortUsers(users,40,1930);
 
         Box box = new Box(Color.gray,10,20,false,true);
-        Box.repaint(box,Color.cyan);
-        Box.fill();
-        Box.fill();
-        Box.clean();
-        Box.open();
-        Box.open();
-        Box.close();
+        box.repaint(box,Color.cyan);
+        box.fill();
+        box.fill();
+        box.clean();
+        box.open();
+        box.open();
+        box.close();
 
     }
 }
