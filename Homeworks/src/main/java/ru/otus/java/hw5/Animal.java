@@ -32,7 +32,7 @@ public class Animal {
         if (endurance <= 0) {
             System.out.println("Плавание закончилось неудачей. Время: - 1");
             info();
-        } else System.out.println("Плавание завершено. Время: " + df.format(distance / velocityRun));
+        } else System.out.println("Плавание завершено. Время: " + df.format(distance / velocitySwim));
     }
 
     public void info() {
