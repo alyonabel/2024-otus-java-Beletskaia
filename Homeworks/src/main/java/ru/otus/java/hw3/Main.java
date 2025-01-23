@@ -22,10 +22,13 @@ public class Main {
     }
 
     public static int[][] nullDiagonal(int[][] array) {
+//        for (int i = 0; i < array.length; i++) {
+//            for (int j = 0; j < array[i].length; j++) {
+//                if (i == j) array[i][j] = 0;
+//            }
+//        }
         for (int i = 0; i < array.length; i++) {
-            for (int j = 0; j < array[i].length; j++) {
-                if (i == j) array[i][j] = 0;
-            }
+            array[i][i] = 0;
         }
         return array;
     }
