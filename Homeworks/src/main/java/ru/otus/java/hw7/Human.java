@@ -9,11 +9,11 @@ public class Human {
         this.name = name;
     }
 
-    public void walk() {
-        System.out.println("Just walking");
+    public void walk(int distance, Terrain type) {
+        System.out.println("Just walking at the distance " + distance + " meters through " + type);
     }
 
-    public void catchTransport(Transport transport) {
+    public void useTransport(Transport transport) {
         setCurrentTransport(transport);
     }
 
@@ -22,8 +22,11 @@ public class Human {
     }
 
     public void relocate(int distance, Terrain type) {
-        if (currentTransport == null) walk();
-        else currentTransport.move(distance, type);
+        if (currentTransport == null) {
+            walk(distance, type);
+        } else {
+            currentTransport.move(distance, type);
+        }
     }
 
     public Transport getCurrentTransport() {

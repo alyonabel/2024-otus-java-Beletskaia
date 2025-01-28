@@ -1,6 +1,6 @@
 package ru.otus.java.hw7;
 
-public interface Transport {
+interface Transport {
 
-    public boolean move(int distance, Terrain type);
+    boolean move(int distance, Terrain type);
 }
