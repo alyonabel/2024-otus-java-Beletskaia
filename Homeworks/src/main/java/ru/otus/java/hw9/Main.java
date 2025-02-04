@@ -2,12 +2,11 @@ package ru.otus.java.hw9;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class Main {
 
-    public static ArrayList makeArray(int min, int max) {
-        ArrayList arrayList = new ArrayList<>();
+    public static ArrayList<Integer> makeArray(int min, int max) {
+        ArrayList <Integer> arrayList = new ArrayList<>();
         for (int i = min; i <= max; i++) {
             arrayList.add(i);
         }
