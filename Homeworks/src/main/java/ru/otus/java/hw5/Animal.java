@@ -24,7 +24,9 @@ public class Animal {
         if (endurance <= 0) {
             System.out.println("Пробежка закончилась истощением выносливости. Время: - 1");
             info();
-        } else {System.out.println("Пробежка закончена успешно. Время в секундах: " + df.format(distance / velocityRun));}
+        } else {
+            System.out.println("Пробежка закончена успешно. Время в секундах: " + df.format(distance / velocityRun));
+        }
     }
 
     public void swim(double distance) {

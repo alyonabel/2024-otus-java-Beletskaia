@@ -5,8 +5,8 @@ public class Plate {
     private int currentCountFood;
     private int maxCapacityFood;
 
-    public Plate (int maxCapacityFood){
-        this.maxCapacityFood=maxCapacityFood;
+    public Plate(int maxCapacityFood) {
+        this.maxCapacityFood = maxCapacityFood;
     }
 
     public void addFood(int food) {
@@ -14,8 +14,8 @@ public class Plate {
         if (currentCountFood > maxCapacityFood) currentCountFood = maxCapacityFood;
     }
 
-    public boolean isEmptyAfterAdding(int food){
-        currentCountFood= currentCountFood-food;
+    public boolean isEmptyAfterAdding(int food) {
+        currentCountFood = currentCountFood - food;
         return currentCountFood >= 0;
     }
 
