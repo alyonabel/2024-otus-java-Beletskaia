@@ -1,0 +1,4 @@
+Diary (file for hw12)
+Hello my Diary!
+It's test of my homework Java IO Part1
+New line in diary
