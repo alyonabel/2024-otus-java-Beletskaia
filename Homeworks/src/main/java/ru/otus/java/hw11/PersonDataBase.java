@@ -8,7 +8,7 @@ public class PersonDataBase {
     public static HashMap<Long, Person> personHashMap = new HashMap<>();
     public static HashSet<Position> positionHashSet = new HashSet<>();
 
-    public  PersonDataBase() {
+    public PersonDataBase() {
         positionHashSet.add(Position.MANAGER);
         positionHashSet.add(Position.DIRECTOR);
         positionHashSet.add(Position.BRANCH_DIRECTOR);
@@ -16,10 +16,16 @@ public class PersonDataBase {
     }
 
     public Person findById(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("Id cannot be null");
+        }
         return personHashMap.get(id);
     }
 
     public void add(Person person) {
+        if (person == null || person.getId() == null) {
+            throw new IllegalArgumentException("Person or Id cannot be null");
+        }
         personHashMap.put(person.getId(), person);
     }
 
