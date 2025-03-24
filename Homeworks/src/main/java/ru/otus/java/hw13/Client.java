@@ -37,7 +37,6 @@ public class Client {
                 System.out.println("Your result:");
                 client.send(resultOperation, number1, number2);
             }
-            client.close();
         } catch (IOException e) {
             throw new RuntimeException();
         } catch (Exception e) {
