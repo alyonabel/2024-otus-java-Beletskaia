@@ -4,6 +4,8 @@ public class Main {
 
     private static long time;
 
+    public static double[] sharedArray = new double[100_000_000];
+
     public static void stamp() {
         time = System.nanoTime();
     }
@@ -15,7 +17,7 @@ public class Main {
     public static void main(String[] args) throws InterruptedException {
         stamp();
 //      Implementation#1
-        MyThread myThread = new MyThread();
+        MyThread myThread = new MyThread(sharedArray);
         myThread.start();
         myThread.join();
         long time1 = getTime();
@@ -23,10 +25,11 @@ public class Main {
 
         stamp();
 //      Implementation#2
-        Thread thread1 = new Thread(new MyTask(0));
-        Thread thread2 = new Thread(new MyTask(25_000_000));
-        Thread thread3 = new Thread(new MyTask(50_000_000));
-        Thread thread4 = new Thread(new MyTask(70_000_000));
+        int index = sharedArray.length/4;
+        Thread thread1 = new Thread(new MyTask(sharedArray,0));
+        Thread thread2 = new Thread(new MyTask(sharedArray,index));
+        Thread thread3 = new Thread(new MyTask(sharedArray,index*2));
+        Thread thread4 = new Thread(new MyTask(sharedArray,index*3));
         thread1.start();
         thread2.start();
         thread3.start();
