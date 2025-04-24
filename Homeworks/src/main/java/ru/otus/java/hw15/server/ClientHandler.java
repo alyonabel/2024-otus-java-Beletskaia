@@ -4,7 +4,6 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class ClientHandler {
     private Socket socket;
@@ -35,22 +34,26 @@ public class ClientHandler {
                 while (true) {
                     String message = in.readUTF();
                     System.out.println(message);
-                    if(message.startsWith("/")){
-                        if(message.equalsIgnoreCase("/exit")){
+                    if (message.startsWith("/")) {
+                        if (message.equalsIgnoreCase("/exit")) {
                             sendMsg("/exitComplete");
-                           break;
+                            disconnect();
+                            break;
+                        } else if (message.startsWith("/w ")) {
+                            String[] splittedMes = message.split(" ", 3);
+                            if (splittedMes.length < 3) {
+                                sendMsg("Неверный формат команды. Используйте: /w <ник> <сообщение>");
+                            } else {
+                                server.broadcastMessageOne(clientName, splittedMes[1], splittedMes[2]);
+                            }
                         }
-                        else if (message.startsWith("/w ")){
-                            String [] splittedMes = message.split(" ",3);
-                            server.broadcastMessageOne(splittedMes[1], splittedMes[2]);
-                        }
-                    }else {
+                    } else {
                         server.broadcastMessage(clientName + " : " + message);
                     }
                 }
             } catch (IOException e) {
                 e.printStackTrace();
-            }finally {
+            } finally {
                 disconnect();
             }
         }).start();
@@ -63,6 +66,7 @@ public class ClientHandler {
             throw new RuntimeException(e);
         }
     }
+
     public void disconnect() {
         server.unSubscribe(this);
         try {

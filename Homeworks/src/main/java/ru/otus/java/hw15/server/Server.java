@@ -10,7 +10,7 @@ public class Server {
     private int port;
     private List<ClientHandler> clients;
 
-   public Server(int port) {
+    public Server(int port) {
         this.port = port;
         clients = new Vector<>();
     }
@@ -20,30 +20,32 @@ public class Server {
             System.out.println("Сервер запущен на порту: " + port);
             while (true) {
                 Socket socket = serverSocket.accept();
-                subscribe(new ClientHandler(socket,this));
+                subscribe(new ClientHandler(socket, this));
             }
         } catch (
                 IOException e) {
         }
     }
-    public void subscribe(ClientHandler clientHandler){
-       clients.add(clientHandler);
+
+    public void subscribe(ClientHandler clientHandler) {
+        clients.add(clientHandler);
     }
-    public void unSubscribe(ClientHandler clientHandler){
+
+    public void unSubscribe(ClientHandler clientHandler) {
         clients.remove(clientHandler);
         System.out.println("Из чата вышел " + clientHandler.getClientName());
     }
-    
+
     public void broadcastMessage(String message) {
         for (ClientHandler client : clients) {
             client.sendMsg(message);
         }
     }
 
-    public void broadcastMessageOne(String clientName,String message){
-            for (ClientHandler client : clients) {
-                if(client.getClientName().equals(clientName))
-                client.sendMsg(message);
-            }
+    public void broadcastMessageOne(String senderName, String clientName, String message) {
+        for (ClientHandler client : clients) {
+            if (client.getClientName().equals(clientName))
+                client.sendMsg("from " + senderName + ": " + message);
+        }
     }
 }

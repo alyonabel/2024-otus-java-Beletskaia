@@ -24,7 +24,7 @@ public class Client {
                 while (true) {
                     String message = in.readUTF();
                     if (message.startsWith("/exit")) {
-                        if(message.equalsIgnoreCase("/exitComplete")){
+                        if (message.equalsIgnoreCase("/exitComplete")) {
                             break;
                         }
                     } else {
@@ -41,7 +41,7 @@ public class Client {
         while (true) {
             String message = scanner.nextLine();
             out.writeUTF(message);
-            if(message.equalsIgnoreCase("/exit")){
+            if (message.equalsIgnoreCase("/exit")) {
                 break;
             }
         }
