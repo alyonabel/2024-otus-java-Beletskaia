@@ -18,9 +18,11 @@ public class InMemoryAuthenticatedProvider implements AuthenticatedProvider {
             this.username = username;
             this.right = Right.USER;
         }
+
         public void setRight(Right right) {
             this.right = right;
         }
+
         public Right getRight() {
             return right;
         }
@@ -116,17 +118,27 @@ public class InMemoryAuthenticatedProvider implements AuthenticatedProvider {
         }
         return false;
     }
+
     @Override
     public boolean kickOther(ClientHandler clientHandler, String username) {
         //kick username
-        if(!isUserAdmin(clientHandler.getClientName())) {
+        if (!isUserAdmin(clientHandler.getClientName())) {
             clientHandler.sendMsg("У вас недостаточно прав для отключения пользователя из чата");
             return false;
         }
 
-        clientHandler.setClientName(username);
-        server.unSubscribe(clientHandler);
-        clientHandler.sendMsg("/kickOk " + username);
+        ClientHandler targetClient = server.findClientByUsername(username);
+        if (targetClient == null) {
+            clientHandler.sendMsg("Пользователь с именем " + username + " не найден");
+            return false;
+        }
+        if(clientHandler.getClientName().equals(username)){
+            clientHandler.sendMsg("Вы не можете исключить самого себя");
+            return false;
+        }
+        targetClient.sendMsg("/kickOk " + username);
+        server.unSubscribe(targetClient);
+        clientHandler.sendMsg("Пользователь " + username + " успешно исключен из чата");
         return true;
     }
 }

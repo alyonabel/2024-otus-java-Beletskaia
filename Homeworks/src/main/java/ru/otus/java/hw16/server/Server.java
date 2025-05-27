@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.List;
-import java.util.Vector;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Server {
@@ -63,10 +62,16 @@ public class Server {
             if (clientHandler.getClientName().equals(username)) {
                 return true;
             }
-        } return false;
+        }
+        return false;
     }
 
 
-
-
+    public ClientHandler findClientByUsername(String username) {
+        ClientHandler clientHandler = null;
+        for (ClientHandler client : clients) {
+            if (client.getClientName().equals(username)) clientHandler = client;
+        }
+        return clientHandler;
+    }
 }

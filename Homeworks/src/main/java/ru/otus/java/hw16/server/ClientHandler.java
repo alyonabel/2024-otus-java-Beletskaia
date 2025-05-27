@@ -26,73 +26,15 @@ public class ClientHandler {
         this.server = server;
         this.in = new DataInputStream(socket.getInputStream());
         this.out = new DataOutputStream(socket.getOutputStream());
+        startClientThread();
+    }
 
+    private void startClientThread() {
         new Thread(() -> {
             try {
                 System.out.println("Клиент подключился на порту " + socket.getPort());
-                //Цикл аутентификации
-                while (true) {
-                    sendMsg("Для начала работы нужно пройти аутентификацию. Формат команды /auth login password \n" + "Для регистрации формат команды /reg login password username");
-                    String message = in.readUTF();
-                    System.out.println(message);
-                    if (message.startsWith("/")) {
-                        if (message.equalsIgnoreCase("/exit")) {
-                            sendMsg("/exitComplete");
-                            disconnect();
-                            break;
-                        }
-                        // auth login password
-                        if (message.startsWith("/auth ")) {
-                            String[] element = message.split(" ");
-                            if (element.length != 3) {
-                                sendMsg("Неверный формат команды /auth");
-                                continue;
-                            }
-                            if (server.getAuthenticatedProvider().authenticate(this, element[1], element[2])) {
-                                break;
-                            }
-                        }
-                        // /reg login password username
-                        if (message.startsWith("/reg ")) {
-                            String[] element = message.split(" ");
-                            if (element.length != 4) {
-                                sendMsg("Неверный формат команды /reg");
-                                continue;
-                            }
-                            if(server.getAuthenticatedProvider().registration(this,element[1],element[2],element[3])){
-                                break;
-                            }
-                        }
-                    }
-                }
-                //Цикл работы
-                while (true) {
-                    String message = in.readUTF();
-                    System.out.println(message);
-                    if (message.startsWith("/")) {
-                        if (message.equalsIgnoreCase("/exit")) {
-                            sendMsg("/exitComplete");
-                            disconnect();
-                            break;
-                        } else if (message.startsWith("/w ")) {
-                            String[] splittedMes = message.split(" ", 3);
-                            if (splittedMes.length < 3) {
-                                sendMsg("Неверный формат команды. Используйте: /w <ник> <сообщение>");
-                            } else {
-                                server.broadcastMessageOne(clientName, splittedMes[1], splittedMes[2]);
-                            }
-                        }
-                    } //kick username
-                    if (message.startsWith("/kick ")) {
-                        String[] element = message.split(" ");
-                        if (element.length != 2) {
-                            sendMsg("Неверный формат команды /kick");
-                            continue;
-                        }
-                        if(server.getAuthenticatedProvider().kickOther(this,element[1])){
-                            continue;
-                        }
-                    }
+                if (handleAuthentication()) {
+                    handleMessages();
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -102,34 +44,101 @@ public class ClientHandler {
         }).start();
     }
 
-    public void sendMsg(String message) {
-        try {
-            out.writeUTF(message);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+    private boolean handleAuthentication() throws IOException {
+        sendMsg("Для начала работы нужно пройти аутентификацию. Формат команды /auth login password \n" +
+                "Для регистрации формат команды /reg login password username");
+        while (true) {
+            String message = in.readUTF();
+            System.out.println(message);
+            if (message.startsWith("/")) {
+                if (message.equalsIgnoreCase("/exit")) {
+                    sendMsg("/exitComplete");
+                    disconnect();
+                    return false;
+                }
+                if (handleAuthCommand(message)) {
+                    return true;
+                }
+                if (handleRegCommand(message)) {
+                    return true;
+                }
+            }
         }
     }
 
-    public void disconnect() {
-        server.unSubscribe(this);
-        try {
-            if (in != null) {
-                in.close();
+    private boolean handleAuthCommand(String message) throws IOException {
+        if (message.startsWith("/auth ")) {
+            String[] elements = message.split(" ");
+            if (elements.length != 3) {
+                sendMsg("Неверный формат команды /auth");
+                return false;
             }
+            return server.getAuthenticatedProvider().authenticate(this, elements[1], elements[2]);
+        }
+        return false;
+    }
+
+    private boolean handleRegCommand(String message) throws IOException {
+        if (message.startsWith("/reg ")) {
+            String[] elements = message.split(" ");
+            if (elements.length != 4) {
+                sendMsg("Неверный формат команды /reg");
+                return false;
+            }
+            return server.getAuthenticatedProvider().registration(this, elements[1], elements[2], elements[3]);
+        }
+        return false;
+    }
+
+    private void handleMessages() throws IOException {
+        while (true) {
+            String message = in.readUTF();
+            System.out.println(message);
+            if (message.startsWith("/")) {
+                if (message.equalsIgnoreCase("/exit")) {
+                    sendMsg("/exitComplete");
+                    disconnect();
+                    break;
+                } else if (message.startsWith("/w ")) {
+                    handlePrivateMessage(message);
+                } else if (message.startsWith("/kick ")) {
+                    handleKickCommand(message);
+                }
+            }
+        }
+    }
+
+    private void handlePrivateMessage(String message) {
+        String[] elements = message.split(" ", 3);
+        if (elements.length < 3) {
+            sendMsg("Неверный формат команды. Используйте: /w <ник> <сообщение>");
+        } else {
+            server.broadcastMessageOne(clientName, elements[1], elements[2]);
+        }
+    }
+
+    private void handleKickCommand(String message) {
+        String[] elements = message.split(" ");
+        if (elements.length != 2) {
+            sendMsg("Неверный формат команды /kick");
+        } else {
+            server.getAuthenticatedProvider().kickOther(this, elements[1]);
+        }
+    }
+
+    void sendMsg(String message) {
+        try {
+            out.writeUTF(message);
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void disconnect() {
         try {
-            if (out != null) {
-                out.close();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            if (socket != null) {
-                socket.close();
-            }
+            if (in != null) in.close();
+            if (out != null) out.close();
+            if (socket != null) socket.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

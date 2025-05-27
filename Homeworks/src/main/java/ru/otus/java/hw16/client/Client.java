@@ -2,7 +2,6 @@ package ru.otus.java.hw16.client;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.EOFException;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.Scanner;
@@ -35,14 +34,16 @@ public class Client {
                             System.out.println("Удалось успешно зарегистрироваться с именем пользователя " + message.split(" ")[1]);
                         }
                         if (message.startsWith("/kickOk ")) {
-                            System.out.println("Удалось успешно отключить пользователя с именем " + message.split(" ")[1]);
+                            System.out.println("Вы (" + message.split(" ")[1] + ") были исключены из чата администратором ");
+                            disconnect();
+                            break;
                         }
                     } else {
                         System.out.println(message);
                     }
                 }
             } catch (IOException e) {
-               e.printStackTrace();
+                e.printStackTrace();
             } finally {
                 disconnect();
             }
