@@ -1,0 +1,11 @@
+services:
+  db:
+    image: postgres:17
+    container_name: my-postgres
+    ports:
+      - "5432:5432"
+    env_file: docker.env
+
+
+
+
